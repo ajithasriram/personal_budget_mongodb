@@ -3,7 +3,7 @@
 <head>
     <!-- This is an SEO Change -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <!-- This is an SEO Change -->
     <meta name="description" content="A personal-budget management app">
     <!-- This is an SEO Change (changed title content to match meta description content) -->
@@ -17,39 +17,57 @@
     <!-- This is an SEO Change -->
     <meta name="msapplication-TileImage" content="personal_budget_icon">
     <!-- This is an SEO Change -->
-    <link rel="apple-touch-icon" sizes="57x57" href="personal_budget_icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="images/personal_budget_icon.png">
     <!-- This is an SEO Change -->
-    <link rel="icon" type="image/png" href="personal_budget_icon.png"/>
+    <link rel="icon" type="image/png" href="images/personal_budget_icon.png"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
-
+    <!-- This is an A11y Change -->
+    <a class="skip-to-content-link" href="#main">Skip to main content</a>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    
     <div class="menu">
         <!-- This is a Semantic HTML Change -->
-        <nav>
+        <!-- This is an A11y Change -->
+        <nav class="nav" role="navigation">
             <ul>
                 <li><a href="">Homepage</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="login.html">Login</a></li>
-                <li><a href="https://google.com">Google</a></li>
+                <li><a href="https://google.com" target="_blank" rel="noopener" rel=noreferrer>Google</a></li>
             </ul>            
         </nav>
     </div>
 
-    <div class="hero">
-        <h1>Personal Budget</h1>
-        <h2>A personal-budget management app</h2>
+    <!-- This is an A11y Change -->
+    <div class="hero" id="title" role="banner" aria-roledescription="Page title">
+            <h1>Personal Budget</h1>
+            <h2>A personal-budget management app</h2>
     </div>
 
-    <div class="container center">
-
+    <div class="container">     
         <div class="page-area">
-
-            <div class="text-box">
+            <!-- This is an A11y Change -->
+            <form class="form-inline mr-auto" role="search">
+                <!-- This is an A11y Change -->
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button type="button" class="btn btn-secondary btn-sm">Search</button>
+            </form>
+            <main id="main">
+            <div class="text-box" role="article">
                 <!-- This is a Semantic HTML Change -->
                 <section>
                     <h1>Stay on track</h1>
+                    <!-- This is an SEO Change -->
+                    <div class="center">
+                        <img src="images/sharon-mccutcheon--8a5eJ1-mmQ-unsplash.jpg" alt="A person counting cash" width="200px" height="120px" >
+                    </div>
                     <p>
                         Do you know where you are spending your money? If you really stop to track it down,
                         you would get surprised! Proper budget management depends on real data... and this
@@ -62,6 +80,10 @@
                 <!-- This is a Semantic HTML Change -->
                 <section>
                     <h1>Alerts</h1>
+                    <!-- This is an SEO Change -->
+                    <div class="center">
+                        <img src="/images/jamie-street-33oxtOMk6Ac-unsplash.jpg" alt="Mobile notifications" width="200px" height="150px">
+                    </div>
                     <p>
                         What if your clothing budget ended? You will get an alert. The goal is to never go over the budget.
                     </p>                    
@@ -105,7 +127,7 @@
                             than they earn and slowly sink deeper into debt every year."
                         </p>
                         <!-- This is an SEO Change -->
-                        <a href="https://www.mymoneycoach.ca/budgeting/what-is-a-budget-planning-forecasting" rel="external nofollow">Read more</a>
+                        <a href="https://www.mymoneycoach.ca/budgeting/what-is-a-budget-planning-forecasting" target="_blank" rel="external nofollow" rel="noopener" rel=noreferrer>Read more</a>
                     </article>                   
                 </section>
             </div>
@@ -120,14 +142,14 @@
                             <h1>6 Reasons why you need a budget!</h1>
                         </header>
                         <p>
-                            <ul>
+                            <ul class="reasons-for-a-budget">
                                 <li>If you're like most folks, you probably aren't following expert financial advice by crafting and following a budget.</li>
                                 <li>A budget is simply a spending plan that takes into account both current and future income and expenses.</li>
                                 <li>Having a budget keeps your spending in check and makes sure your savings are on track for the future.</li>
                             </ul>                          
                         </p>
                         <!-- This is an SEO Change -->
-                        <a href="https://www.investopedia.com/financial-edge/1109/6-reasons-why-you-need-a-budget.aspx" rel="external nofollow">Read more</a>
+                        <a href="https://www.investopedia.com/financial-edge/1109/6-reasons-why-you-need-a-budget.aspx" target="_blank" rel="external nofollow" rel="noopener" rel=noreferrer>Read more</a>
                     </article>                  
                 </section>
             </div>
@@ -145,7 +167,7 @@
                             Read some success stories that were only possible because they had a budget.
                         </p>
                         <!-- This is an SEO Change -->                    
-                        <a href="https://www.youneedabudget.com/category/budgeting-success-stories/" rel="external nofollow">Read more</a>                        
+                        <a href="https://www.youneedabudget.com/category/budgeting-success-stories/" target="_blank" rel="external nofollow" rel="noopener" rel=noreferrer>Read more</a>                        
                     </article>
                 </section>
             </div>
@@ -163,11 +185,11 @@
                             Read 4 real life budget success stories. Read more to find out how important it is to maintain a personal budget.
                         </p>
                         <!-- This is an SEO Change -->                    
-                        <a href="https://blog.mint.com/goals/they-did-it-and-so-can-you-4-real-life-budget-success-stories-0114/" rel="external nofollow">Read more</a>
+                        <a href="https://blog.mint.com/goals/they-did-it-and-so-can-you-4-real-life-budget-success-stories-0114/" target="_blank" rel="external nofollow" rel="noopener" rel=noreferrer>Read more</a>
                     </article>
                 </section>
             </div>
-
+            </main>
         </div>
 
     </div>
