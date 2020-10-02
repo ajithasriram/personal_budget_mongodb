@@ -1,0 +1,39 @@
+{
+    "myBudget": [
+        {
+            "title": "Eat Out",
+            "budget": 40,
+            "backgroundColor": "#6E80E5"
+        },
+        {
+            "title": "Rent",
+            "budget": 385,
+            "backgroundColor": "#3A4DB8"
+        },
+        {
+            "title": "Groceries",
+            "budget": 60,
+            "backgroundColor": "#949AB6"
+        },
+        {
+            "title": "College Fee",
+            "budget": 2000,
+            "backgroundColor": "#4d5791"
+        },
+        {
+            "title": "Phone Bill",
+            "budget": 30,
+            "backgroundColor": "#B9C4FE"
+        },
+        {
+            "title": "Coffee",
+            "budget": 120,
+            "backgroundColor": "#85868D"
+        },
+        {
+            "title": "Travel",
+            "budget": 200,
+            "backgroundColor": "#363E6B"
+        }
+    ]    
+}

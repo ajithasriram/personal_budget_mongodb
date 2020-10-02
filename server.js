@@ -1,25 +1,16 @@
 const express = require('express');
+const fs = require('fs')
 const app = express();
 const port = 3000;
 
 app.use('/', express.static('public'));
 
-const budget = {
-    myBudget: [
-        {
-            title: 'Eat out',
-            budget: 40
-        },
-        {
-            title: 'Rent',
-            budget: 385
-        },
-        {
-            title: 'Groceries',
-            budget: 60
-        },
-    ]
-};
+let budget = {}
+
+fs.readFile('./dataset.json', 'utf-8', (err, data) => {
+    if (err) throw err
+    budget = JSON.parse(data)
+})
 
 app.get('/hello', (req, res) => {
     res.send('Konnichiwa!');
