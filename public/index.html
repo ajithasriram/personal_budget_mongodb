@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="main.css">
+
+    <meta charset="utf-8">
 </head>
 <body>
     <!-- This is an A11y Change -->
@@ -59,6 +61,11 @@
                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
                 <button type="button" class="btn btn-secondary btn-sm">Search</button>
             </form>
+            <div class="center" id="myDoughnutChart" style="height:400px">
+                <p>
+                    <button class="randomize" >randomize</button>
+                </p>                
+            </div>
             <main id="main">
             <div class="text-box" role="article">
                 <!-- This is a Semantic HTML Change -->
@@ -203,6 +210,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js" integrity="sha512-quHCp3WbBNkwLfYUMd+KwBAgpVukJu5MncuQaWXgCrfgcxCJAq/fo+oqrRKOj+UKEmyMCG3tb8RB63W+EmrOBg==" crossorigin="anonymous"></script>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
     <script>
         var dataSource = {
             datasets: [
@@ -236,6 +245,172 @@
         }
         getBudget();
 
+        //d3g code:
+        var svg = d3.select("#myDoughnutChart")
+            .append("svg")
+            .append("g")
+
+        svg.append("g")
+            .attr("width",100)
+            .attr("height",100)
+            .attr("viewBox", "0 0 1000 1000")
+        svg.append("g")
+            .attr("class", "slices");
+        svg.append("g")
+            .attr("class", "labels");
+        svg.append("g")
+            .attr("class", "lines");
+
+        var width = 960,
+            height = 450,
+            margin = 40
+            radius = Math.min(width, height) / 2 - margin;
+
+        var pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) {
+                return d.value;
+            });
+
+        var arc = d3.svg.arc()
+            .outerRadius(radius * 0.6)
+            .innerRadius(radius * 0.3);
+
+        var outerArc = d3.svg.arc()
+            .innerRadius(radius * 0.7)
+            .outerRadius(radius * 0.7);
+
+        svg.attr("transform", "translate(" + width / 2.5 + "," + height / 2.5 + ")");
+
+        var key = function(d){ return d.data.label; };
+        var array =[]
+        var range = []
+        var backgroundColor = []
+
+        d3.json("/budget", function(data) {
+            console.log(data["myBudget"][0].backgroundColor);
+
+            for(var i = 0; i < data["myBudget"].length; i++){
+                array[i] = data["myBudget"][i].title;//data.myBudget[i].title;
+                range[i] = data["myBudget"][i].budget; //data.myBudget[i].budget;
+                backgroundColor[i] = data["myBudget"][i].backgroundColor;
+                console.log(array[i]);
+            }
+
+            var color = d3.scale.ordinal()
+                .domain(array)
+                .range(backgroundColor);
+
+            // var color = d3.scale.ordinal()
+            //     .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
+            //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);        
+
+            function randomData (){
+                var labels = color.domain();
+                return labels.map(function(label){
+                    return { label: label, value: Math.random() }
+                });
+            }
+
+            change(randomData());
+
+            d3.select(".randomize")
+                .on("click", function(){
+                    change(randomData());
+                });
+
+
+            function change(data) {
+
+                /* ------- PIE SLICES -------*/
+                var slice = svg.select(".slices").selectAll("path.slice")
+                    .data(pie(data), key);
+
+                slice.enter()
+                    .insert("path")
+                    .style("fill", function(d) { return color(d.data.label); })
+                    .attr("class", "slice");
+
+                slice		
+                    .transition().duration(1000)
+                    .attrTween("d", function(d) {
+                        this._current = this._current || d;
+                        var interpolate = d3.interpolate(this._current, d);
+                        this._current = interpolate(0);
+                        return function(t) {
+                            return arc(interpolate(t));
+                        };
+                    })
+
+                slice.exit()
+                    .remove();
+
+                /* ------- TEXT LABELS -------*/
+
+                var text = svg.select(".labels").selectAll("text")
+                    .data(pie(data), key);
+
+                text.enter()
+                    .append("text")
+                    .attr("dy", ".35em")
+                    .text(function(d) {
+                        return d.data.label;
+                    });
+                
+                function midAngle(d){
+                    return d.startAngle + (d.endAngle - d.startAngle)/2;
+                }
+
+                text.transition().duration(1000)
+                    .attrTween("transform", function(d) {
+                        this._current = this._current || d;
+                        var interpolate = d3.interpolate(this._current, d);
+                        this._current = interpolate(0);
+                        return function(t) {
+                            var d2 = interpolate(t);
+                            var pos = outerArc.centroid(d2);
+                            pos[0] = radius * 0.7 * (midAngle(d2) < Math.PI ? 1 : -1);
+                            return "translate("+ pos +")";
+                        };
+                    })
+                    .styleTween("text-anchor", function(d){
+                        this._current = this._current || d;
+                        var interpolate = d3.interpolate(this._current, d);
+                        this._current = interpolate(0);
+                        return function(t) {
+                            var d2 = interpolate(t);
+                            return midAngle(d2) < Math.PI ? "start":"end";
+                        };
+                    });
+
+                text.exit()
+                    .remove();
+
+                /* ------- SLICE TO TEXT POLYLINES -------*/
+
+                var polyline = svg.select(".lines").selectAll("polyline")
+                    .data(pie(data), key);
+                
+                polyline.enter()
+                    .append("polyline");
+
+                polyline.transition().duration(1000)
+                    .attrTween("points", function(d){
+                        this._current = this._current || d;
+                        var interpolate = d3.interpolate(this._current, d);
+                        this._current = interpolate(0);
+                        return function(t) {
+                            var d2 = interpolate(t);
+                            var pos = outerArc.centroid(d2);
+                            pos[0] = radius * 0.5 * (midAngle(d2) < Math.PI ? 1 : -1); //0.95
+                            return [arc.centroid(d2), outerArc.centroid(d2), pos];
+                        };			
+                    });
+                
+                polyline.exit()
+                    .remove();
+            }; 
+        });      
     </script>
 </body>
 </html>
