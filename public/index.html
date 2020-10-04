@@ -291,19 +291,15 @@
             console.log(data["myBudget"][0].backgroundColor);
 
             for(var i = 0; i < data["myBudget"].length; i++){
-                array[i] = data["myBudget"][i].title;//data.myBudget[i].title;
-                range[i] = data["myBudget"][i].budget; //data.myBudget[i].budget;
+                array[i] = data["myBudget"][i].title;
+                range[i] = data["myBudget"][i].budget;
                 backgroundColor[i] = data["myBudget"][i].backgroundColor;
                 console.log(array[i]);
             }
 
             var color = d3.scale.ordinal()
                 .domain(array)
-                .range(backgroundColor);
-
-            // var color = d3.scale.ordinal()
-            //     .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
-            //     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);        
+                .range(backgroundColor);     
 
             function randomData (){
                 var labels = color.domain();
@@ -369,7 +365,7 @@
                         return function(t) {
                             var d2 = interpolate(t);
                             var pos = outerArc.centroid(d2);
-                            pos[0] = radius * 0.7 * (midAngle(d2) < Math.PI ? 1 : -1);
+                            pos[0] = radius * (midAngle(d2) < Math.PI ? 1 : -1);
                             return "translate("+ pos +")";
                         };
                     })
@@ -402,7 +398,7 @@
                         return function(t) {
                             var d2 = interpolate(t);
                             var pos = outerArc.centroid(d2);
-                            pos[0] = radius * 0.5 * (midAngle(d2) < Math.PI ? 1 : -1); //0.95
+                            pos[0] = radius * 0.95 * (midAngle(d2) < Math.PI ? 1 : -1);
                             return [arc.centroid(d2), outerArc.centroid(d2), pos];
                         };			
                     });
