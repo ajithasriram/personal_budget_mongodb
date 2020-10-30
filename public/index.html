@@ -232,13 +232,14 @@
         }
 
         function getBudget(){
-            axios.get('http://localhost:3000/budget')
+            axios.get('http://localhost:3000/getBudget')
             .then(function(res){
-                console.log(res);
-                for(var i = 0; i<res.data.myBudget.length; i++){
-                    dataSource.datasets[0].data[i] = res.data.myBudget[i].budget;
-                    dataSource.labels[i] = res.data.myBudget[i].title;
-                    dataSource.datasets[0].backgroundColor[i] = res.data.myBudget[i].backgroundColor;
+                console.log(res.data.length);
+                console.log(res.data[0].budgetValue);
+                for(var i = 0; i < res.data.length; i++){
+                    dataSource.datasets[0].data[i] = res.data[i].budgetValue;
+                    dataSource.labels[i] = res.data[i].title;
+                    dataSource.datasets[0].backgroundColor[i] = res.data[i].color;
                 }
                 createChart();
             });
@@ -287,13 +288,14 @@
         var range = []
         var backgroundColor = []
 
-        d3.json("http://localhost:3000/budget", function(data) {
-            console.log(data["myBudget"][0].backgroundColor);
+        d3.json("http://localhost:3000/getBudget", function(data) {
+            console.log(data.length);
+            console.log(data[0].title);
 
-            for(var i = 0; i < data["myBudget"].length; i++){
-                array[i] = data["myBudget"][i].title;
-                range[i] = data["myBudget"][i].budget;
-                backgroundColor[i] = data["myBudget"][i].backgroundColor;
+            for(var i = 0; i < data.length; i++){
+                array[i] = data[i].title;
+                range[i] = data[i].budgetValue;
+                backgroundColor[i] = data[i].color;
                 console.log(array[i]);
             }
 
